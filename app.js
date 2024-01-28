@@ -6,7 +6,7 @@ const port_server = 5000;
 const { user_modal, lawyer_modal } = require("./mongoDBcon.js");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const transportor=require('./NodeMailer.js');
+const transportor = require("./NodeMailer.js");
 
 // cookie-parser
 app.use(cookieParser());
@@ -47,6 +47,18 @@ app.get("/index", (q, r) => {
   r.render("index");
 });
 
+app.get("/users", (q, r) => {
+  r.render("users");
+});
+
+app.get("/login_lawyer", (q, r) => {
+  r.render("login_lawyer");
+});
+
+app.get("/sign_lawyer", (q, r) => {
+  r.render("sign_lawyer");
+});
+
 // get for login
 app.get("/login", (q, r) => {
   console.log("into login");
@@ -71,10 +83,10 @@ app.get("/Find_lawyer", async (q, r) => {
   console.log(`\t\t\t The cookie is  ${q.cookies._id} \n\n`);
 
   try {
-    const lawyers=await lawyer_modal.find({});
+    const lawyers = await lawyer_modal.find({});
     console.log(lawyers);
     await jwt.verify(q.cookies.jwt, "your-secret-key");
-    r.render("Find_lawyer",{lawyers});
+    r.render("Find_lawyer", { lawyers });
   } catch (error) {
     console.log(error);
     r.redirect("login");
@@ -97,7 +109,7 @@ app.get("/connection_req", async (q, r) => {
     console.log(q.cookies.jwt);
     await jwt.verify(q.cookies.jwt, "your-secret-key");
     //const properties = await property_modal.find({});
-    r.render("connection_req", {  });
+    r.render("connection_req", {});
   } catch (error) {
     console.log(error);
     r.redirect("login");
@@ -139,7 +151,7 @@ app.post("/login_post", async (q, r) => {
     }
   } catch (err) {
     console.log(err.message);
-    r.redirect('/login')
+    r.redirect("/login");
   }
 });
 
@@ -162,20 +174,20 @@ app.post("/connection_req", async (q, r) => {
 });
 
 // POST for nodemailer
-app.post('/sendBookEmail',(q,r)=>{
+app.post("/sendBookEmail", (q, r) => {
   const { lawyerEmail, name, email, phoneNumber } = q.body;
-  const mailOptions={
-    from: 'ancloudskill@gmail.com',
+  const mailOptions = {
+    from: "ancloudskill@gmail.com",
     to: lawyerEmail,
-    subject: 'Request for Booking',
-    html:`
+    subject: "Request for Booking",
+    html: `
         <p>Hello ${name},</p>
         <p>We from Legal Bharat are hereby dropping this mail regrading a booking request with following detail:</p>
         <p>Name : ${name}<p>
         <p><p>
         <p><p>
-        `
-  }
+        `,
+  };
 });
 
 // Page or resource not found
