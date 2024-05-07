@@ -65,6 +65,11 @@ const lawyer_schema=new mongoose.Schema({
     malpracticeInsuranceProof: {
         type: Schema.Types.ObjectId,
         ref: 'file' 
+    },
+    nl:{
+        type:String,
+        min:7,
+        max:50
     }
 });
 
@@ -84,7 +89,6 @@ const users_schema=new mongoose.Schema({
     },
     State:{
         type:String,
-        unique:true
     },
     Full_address:{
         type:String
@@ -98,10 +102,6 @@ const users_schema=new mongoose.Schema({
         required: true,
         unique:true
     },
-    phone_number_user:{
-        type:String,
-        unique:true
-    },
     password:{
         type:String,
         required:true,
@@ -110,8 +110,38 @@ const users_schema=new mongoose.Schema({
     }
 });
 
+// Connection schema
+const connectionSchema = new mongoose.Schema({
+    user: {
+      type: String,
+      required: true
+    },
+    u_name: {
+        type: String,
+        required: true
+      },
+    connection: {
+      type: String, 
+      required: true
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'accepted', 'rejected'],
+      default: 'pending'
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
+  });
+  
+  // Connection model
+  const Connection = mongoose.model('Connection', connectionSchema);
+  
+
+
 // modal creation for CRUD operation on DB
 const lawyer_modal=mongoose.model('lawyer_collection',lawyer_schema);
 const user_modal=mongoose.model('user_collection',users_schema);
 
-module.exports={user_modal,lawyer_modal};
+module.exports={user_modal,lawyer_modal,Connection};

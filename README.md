@@ -16,7 +16,11 @@ I made use of express js, node js and mongodb for database.All the contents are 
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Blog](#Blog)
+- [API Endpoints](#api-endpoints)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
+- [Questions](#questions)
 
 ## Installation
 
@@ -41,5 +45,5 @@ Make sure you have mongodb and node js along with all required dependencies.
 ```bash
 nodemon app.js
 ```
-## Blog
-[Blog Link](https://naikayushblog.hashnode.dev/navigating-the-digital-legal-landscape-with-legalbharat)
+## Screenshot
+![Home Page]()

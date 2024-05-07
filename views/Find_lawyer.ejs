@@ -3,13 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Legal Bharat</title>
+    <title>Legal Bharat-Find Lawyer</title>
+    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   </head>
   <style>
     .card {
@@ -140,13 +142,14 @@
       >
         <% lawyers.forEach((lawyer) => { %>
         <div class="container mt-5 d-flex justify-content-center">
-          <div class="card p-3">
+          <div class="card p-3" style="width: fit-content;">
             <div class="d-flex align-items-center">
               <div class="image">
                 <img
-                  src="<%= lawyer.profileImageUrl %>"
+                  src="<%= lawyer.pic_lawyer %>"
                   class="rounded"
-                  width="155"
+                  width="100"
+                  style="margin:1rem;"
                 />
               </div>
 
@@ -154,7 +157,7 @@
                 <h4 class="mb-0 mt-0"><%= lawyer.full_lawyer_name %></h4>
                 <span><%= lawyer.email %></span>
 
-                <div
+                <!-- <div
                   class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats"
                 >
                   <div class="d-flex flex-column">
@@ -171,16 +174,15 @@
                     <span class="rating">Rating</span>
                     <span class="number3">-</span>
                   </div>
-                </div>
+                </div> -->
 
-                <div class="button mt-2 d-flex flex-row align-items-center">
-                  <button class="btn btn-sm btn-primary w-100 ml-2">
+                <div class="button mt-2 d-flex flex-row align-items-center" style="gap: 1rem;">
+                  <!-- <button class="btn btn-sm btn-primary w-100 ml-2">
                     Follow
-                  </button>
+                  </button> -->
                   <button
                     class="btn btn-sm btn-primary w-100 ml-2"
-                    onclick="sendConsultEmail(this)"
-                    data-email='<%= lawyer.email %>'
+                    onclick="sendConsultEmail('<%= lawyer.email %>')"
                   >
                     Consult
                   </button>
@@ -200,15 +202,15 @@
 
       <!-- Add JavaScript code to send emails when buttons are clicked -->
       <script>
-        function sendConsultEmail(button) {
+        function sendConsultEmail(lawyerEmail) {
           // Add logic to send consult email using AJAX or redirect to a backend route
           console.log(
-            `Sending consult email to "${button.getAttribute("data-email")}" `
+            `Sending consult email to "${lawyerEmail}" `
           );
           // Example: You can use AJAX to send a request to your backend
           const userEmail = document.cookie._id; //.replace(/(?:(?:^|.*;\s*)userEmail\s*=\s*([^;]*).*$)|^.*$/, "$1");
           console.log(userEmail);
-          //$.post('/sendConsultEmail', { lawyerEmail, userEmail},(data)=>{alert(data)});
+          $.post('/sendConsultEmail', { lawyerEmail},(data)=>{alert(data)});
         }
 
         function sendBookEmail(lawyerEmail) {
@@ -221,7 +223,7 @@
             `Sending book email to ${lawyerEmail} and userEmail : ${userEmail}`
           );
           // Example: You can use AJAX to send a request to your backend
-          //$.post('/sendBookEmail', { lawyerEmail, userEmail},(data)=>{alert(data)});
+          $.post('/sendBookEmail', { lawyerEmail},(data)=>{alert(data)});
         }
       </script>
 

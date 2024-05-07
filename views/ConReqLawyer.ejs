@@ -1,12 +1,10 @@
-<!-- index.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Head content goes here -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Legal Bharat-Connection request</title>
+    <title>Legal Bharat-Lawyer Connection Request</title>
     <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -85,10 +83,10 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="Find_lawyer">Find a Lawyer</a>
+            <a class="nav-link" href="#">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="WS_rent">Newsletters</a>
+            <a class="nav-link" href="#">Notifications</a>
           </li>
         </ul>
       </div>
@@ -102,40 +100,35 @@ style="
   margin-top: 2rem;
 "
 >
-<% lawyers.forEach((lawyer) => { %>
-  <% const isConnected = con.some(c => c.connection === lawyer.email); %>
-  <% if (!isConnected) { %>
+<% users.forEach((u) => { %>
+  <% if (u.status === 'pending') { %>
     <div class="container mt-5 d-flex justify-content-center">
       <div class="card p-3" style="width: fit-content">
         <div class="d-flex align-items-center">
-          <div class="image">
-            <img
-              src="<%= lawyer.pic_lawyer %>"
-              class="rounded"
-              width="100"
-              style="margin: 1rem"
-            />
-          </div>
 
           <div class="ml-3 w-100">
-            <h4 class="mb-0 mt-0"><%= lawyer.full_lawyer_name %></h4>
-            <span><%= lawyer.email %></span>
+            <h4 class="mb-0 mt-0"><%= u.u_name %></h4>
+            <span><%= u.user %></span>
 
-            <br />
-            <span><b>City:</b>&nbsp;<%= lawyer.City_lawyer %></span>
-
-            <br />
-            <span><b>State:</b>&nbsp;<%= lawyer.State_lawyer %></span>
 
             <div
               class="button mt-2 d-flex flex-row align-items-center"
               style="gap: 1rem"
             >
+              <!-- <button class="btn btn-sm btn-primary w-100 ml-2">
+                Follow
+              </button> -->
               <button
                 class="btn btn-sm btn-primary w-100 ml-2"
-                onclick="sendCon('<%= lawyer.email %>')"
+                onclick="Accept('<%= u.user %>')"
               >
                 Connect
+              </button>
+              <button
+                class="btn btn-sm btn-danger w-100 ml-2"
+                onclick="Reject('<%= u.user %>')"
+              >
+                Reject
               </button>
             </div>
           </div>
@@ -148,18 +141,26 @@ style="
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-function sendCon(lawyerEmail) {
-  console.log(`Sending connection request to "${lawyerEmail}"`);
-  const userEmail = document.cookie._id;
-  console.log(userEmail);
-  $.post("/sendConReq", { lawyerEmail }, (data) => {
+function Accept(userEmail) {
+  console.log(`Accepting connection request from "${userEmail}"`);
+  const lawyerEmail = document.cookie._id;
+  console.log(lawyerEmail);
+  $.post("/sendAccept", { userEmail }, (data) => {
+    alert(data);
+    location.reload();
+  });
+}
+
+function Reject(userEmail) {
+  console.log(`Rejecting connection request from "${userEmail}"`);
+  const lawyerEmail = document.cookie._id;
+  console.log(lawyerEmail);
+  $.post("/sendReject", { userEmail }, (data) => {
     alert(data);
     location.reload();
   });
 }
 </script>
-
-
 
       <!-- Footer starts -->
       <div class="container">
